@@ -66,7 +66,7 @@ if ($data["action"] == "createTask") {
 	$ffm_args .= "-metadata artist=\"{$data["artist"]}\" ";
 	$ffm_args .= "-metadata album_artist=\"{$data["albumArtist"]}\" ";
 	$ffm_args .= "-metadata album=\"{$data["album"]}\" ";
-	if (isset($data["track"])) {
+	if ($data["track"] != 0) {
 		$data["track"] = escapeshellcmd($data["track"]);
 		$ffm_args .= "-metadata track=\"{$data["track"]}\" ";
 	}
