@@ -40,7 +40,7 @@ if ($data["action"] == "createTask") {
 	
 	$thumbnail = "default_thumbnail.png";
 	// Download Thumbnail
-	if (!isset($data["thumbnail"])) {
+	if (isset($data["thumbnail"])) {
 		$data["thumbnail"] = escapeshellarg($data["thumbnail"]);
 		// On Windows install wget and add to Path
 		shell_exec("wget --no-check-certificate -O \"thumbnails/{$uuid}\" {$data["thumbnail"]}");
