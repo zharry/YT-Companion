@@ -1,5 +1,5 @@
-rm temp/*.*
-rm logs/*.*
-rm status/*.*
-rm thumbnails/*.*
-rm output/*.*
+rm -f temp/*.*
+rm -f logs/*.*
+rm -f status/*.*
+rm -f thumbnails/*.*
+rm -f output/*.*
