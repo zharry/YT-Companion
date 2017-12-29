@@ -1,7 +1,5 @@
 # YT-Companion
-Youtube companion, chrome extension and backend
+Youtube MP3 Downloader with Metadata customizer
 
 ## TO-DO
-1. Add Status Checking and Downloading
-2. Finish the Extension and Backend
-3. Bug Fixes
+1. Bug and Stress Testing

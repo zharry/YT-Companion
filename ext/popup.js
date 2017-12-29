@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		var host = url.split("//")[1].split("/")[0];
 		if (!(host == "www.youtube.com" || host == "youtube.com")) {
 			// User is not on Youtube.com
-			container.innerHTML = "<center><h4>We currently only support downloading Youtube Videos.</h4></center>";
+			container.innerHTML = "<center><h4>Only videos on Youtube.com are supported!</h4></center>";
 		
 		} else {
 			// User is on Youtube.com
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				});
 				
 				// Set Filename to download
-				fileName = artist.value + "-" + title.value;
+				fileName = artist.value + " - " + title.value;
 				if (artist.value == "" || title.value == "") {
 					fileName = id;
 				}
@@ -97,7 +97,16 @@ function updateStatus(response) {
 	if (response.split("-")[0] == "Done") {
 		var uuid = response.split("-")[1];
 		clearInterval(checkIntervalID);
-		container.innerHTML = "<center><h4><a href='http://youtubedl.ml/?action=download&uuid=" + uuid + "&name=" + fileName + "'>Download</a></h4></center>";
+		
+		// Create Download Button
+		container.innerHTML = "<center><h4><button id='dlButton'>Download</button></h4></center>";
+		var dlLink = "http://youtubedl.ml/?action=download&uuid=" + uuid + "&name=" + fileName;
+		document.getElementById("dlButton").addEventListener("click", function(activeTab){
+			chrome.downloads.download({
+				url: dlLink,
+				filename: fileName + ".mp3"
+			});
+		});
 	}
 }
 
