@@ -117,7 +117,7 @@ if ($data["action"] == "createTask") {
 	// Send user file to download
 	$file = file_get_contents("output/{$uuid}.mp3");
 	$fileName = $data["name"];
-	header('Content-disposition: filename="'.$fileName.'"');
+	header('Content-disposition: attachment; filename="'.$fileName.'".mp3');
 	header('Content-type: audio/mpeg');
 	echo $file;
 	
