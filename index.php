@@ -104,7 +104,7 @@ if ($data["action"] == "createTask") {
 		} else if (file_exists("status/{$uuid}.converting")) {
 			$return = "Converting";
 		} else if (file_exists("status/{$uuid}.done") && file_exists("output/{$uuid}.mp3")) {
-			$return = "Done";
+			$return = "Done-{$uuid}";
 		} else {
 			$return = "Removed";
 		}

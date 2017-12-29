@@ -11,6 +11,8 @@ var submitButton = document.getElementById('submit');
 var idDisplay = document.getElementById("id");
 var container = document.getElementById("container");
 
+var fileName = "";
+
 document.addEventListener('DOMContentLoaded', function() {
 	var url = "";
 	var id = "";
@@ -63,6 +65,12 @@ document.addEventListener('DOMContentLoaded', function() {
 					"bitrate": bitrate.value,
 					"thumbnail": thumbnail.value,
 				});
+				
+				// Set Filename to download
+				fileName = artist.value + "-" + title.value;
+				if (artist.value == "" || title.value == "") {
+					fileName = id;
+				}
 			});
 		}
 	});
@@ -85,10 +93,11 @@ function queryServerStatus(uuid) {
 	});
 }
 function updateStatus(response) {
-	console.log(response);
-	container.innerHTML = response;
-	if (response == "Done") {
+	container.innerHTML = "<center><h4>" + response + "</center></h4>";
+	if (response.split("-")[0] == "Done") {
+		var uuid = response.split("-")[1];
 		clearInterval(checkIntervalID);
+		container.innerHTML = "<center><h4><a href='http://youtubedl.ml/output/" + uuid + ".mp3' download='" + fileName + ".mp3'>Download</a></h4></center>";
 	}
 }
 
