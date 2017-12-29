@@ -4,7 +4,9 @@
 header("Access-Control-Allow-Origin: *");
 
 // Fix Docker Paths
-putenv('PATH=/usr/local/bin:/usr/bin:/bin');
+if (substr(php_uname(), 0, 7) != "Windows"){
+	putenv('PATH=/usr/local/bin:/usr/bin:/bin');
+}
 
 // Helper Function
 function bexec($name, $cmd) {
@@ -40,6 +42,7 @@ if ($data["action"] == "createTask") {
 	// Download Thumbnail
 	if (!isset($data["thumbnail"])) {
 		$data["thumbnail"] = escapeshellarg($data["thumbnail"]);
+		// On Windows install wget and add to Path
 		shell_exec("wget --no-check-certificate -O \"thumbnails/{$uuid}\" {$data["thumbnail"]}");
 		if (file_exists("thumbnails/{$uuid}")) {
 			$thumbnail = "thumbnails/{$uuid}";
@@ -51,6 +54,9 @@ if ($data["action"] == "createTask") {
 	
 	// FFMPEG Command
 	$ffm_args = "\"ffmpeg\" ";
+	if (substr(php_uname(), 0, 7) == "Windows"){
+		$ffm_args = "\"bin/ffmpeg\" ";
+	}
 	$ffm_args .= "-i \"temp/{$uuid}.mp3\" ";
 	$ffm_args .= "-i \"{$thumbnail}\" ";
 	$ffm_args .= "-map 0:0 -map 1:0 -c copy ";
@@ -82,6 +88,7 @@ if ($data["action"] == "createTask") {
 	if ($DEBUG) {
 		$ydl_args = "-v " . $ydl_args;
 	}
+	// On Linux python must be intalled through 'apt-get install python'
 	$ydl = "\"bin/youtubedl\" " . $ydl_args . " > logs/{$uuid}.txt";
 	
 	// Run Command
