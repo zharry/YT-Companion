@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Youtube Downloader</title>
+    <style type="text/css">
+	#container {
+		width: 173px;
+	}
+	#id {
+		margin-top: -12px;
+	}
+    </style>
+    <script src="popup.js"></script>
+  </head>
+
+  <body>
+    <center>
+		<h3>Youtube MP3 Downloader</h3>
+		<p id="id"></p>
+	</center>
+    <div id="container">
+		<form method="get" action="http://localhost/youtube/">
+			Title:<br>
+			<input type="text" id="title">
+			<br>
+			Artist:<br>
+			<input type="text" id="artist">
+			<br>
+			Album:<br>
+			<input type="text" id="album">
+			<br>
+			Album Artist:<br>
+			<input type="text" id="aartist">
+			<br>
+			Track No.:<br>
+			<input type="text" id="track" value="0">
+			<br>
+			Genre:<br>
+			<input type="text" id="genre">
+			<br><br><hr/><br>
+			Quality:<br>
+			<select id="bitrate">
+				<option value="64">Space Efficent (64Kbps)</option>
+				<option selected value="128">Standard (128Kbps)</option>
+				<option value="192">Better Quality (192Kbps)</option>
+				<option value="320">Maximum (320Kbps)</option>
+			</select>
+			<br>
+			<br/>
+			Thumbnail (URL):<br>
+			<input type="text" id="thumbnail">
+			<br/>
+			<br/>
+			<center><button id="submit">Download</button></center>
+		</form>
+    </div>
+  </body>
+</html>
