@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			// Download Button
 			submitButton.addEventListener('click', function() {		
 				// Submit form
-				ajax("https://youtubedl.ml/", checkStatus, {
+				ajax("http://youtubedl.ml/", checkStatus, {
 					"action": "createTask",
 					"url": url,
 					"title": title.value,

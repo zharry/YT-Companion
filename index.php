@@ -95,7 +95,7 @@ if ($data["action"] == "createTask") {
 	bexec("PHP-CreateStatus-{$uuid}", $createStatus);
 	bexec("PHP-{$uuid}", $ydl);
 	
-	$return = $ydl;
+	$return = $uuid;
 } else if ($data["action"] == "checkStatus") {
 	
 }
