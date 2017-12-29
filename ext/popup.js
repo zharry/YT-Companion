@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	var url = "";
 	var id = "";
 	
+	// Re-fetch Form Elements
 	title = document.getElementById('title');
 	artist = document.getElementById('artist');
 	album = document.getElementById('album');
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	submitButton = document.getElementById('submit');
 	idDisplay = document.getElementById("id");
 	container = document.getElementById("container");
+	
 	// Check to see if tab is on Youtube
 	chrome.tabs.getSelected(null, function(tab) {
 		url = tab.url;
@@ -66,6 +68,30 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 });
 
+var checkIntervalID = -1;
+function checkStatus(response) {
+	if (response.indexOf("YDL_") == 0) {
+		idDisplay.innerHTML = response;
+		checkIntervalID = setInterval(queryServerStatus, 100, response);
+	} else {
+		idDisplay.innerHTML = "Error!";
+		container.innerHTML = "Internal server error: " + response;
+	}
+}
+function queryServerStatus(uuid) {
+	ajax("http://youtubedl.ml/", updateStatus, {
+		"action": "checkStatus",
+		"uuid": uuid
+	});
+}
+function updateStatus(response) {
+	console.log(response);
+	container.innerHTML = response;
+	if (response == "Done") {
+		clearInterval(checkIntervalID);
+	}
+}
+
 // ("https://...", function(){}, {key: args, ...})
 function ajax(url, cb, postArgs) {
 	var xhttp;
@@ -82,13 +108,4 @@ function ajax(url, cb, postArgs) {
 	params = params.slice(0, -1);
 	xhttp.open("GET", url + "?" + params, true);
 	xhttp.send();
-}
-
-function checkStatus(response) {
-	if (response.indexOf("YDL_") == 0) {
-		idDisplay.innerHTML = response;
-	} else {
-		idDisplay.innerHTML = "Error!";
-		container.innerHTML = "Internal server error: " + response;
-	}
 }

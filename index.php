@@ -97,7 +97,29 @@ if ($data["action"] == "createTask") {
 	
 	$return = $uuid;
 } else if ($data["action"] == "checkStatus") {
-	
+	$uuid = escapeshellcmd($data["uuid"]);
+	if (file_exists("logs/{$uuid}.txt")) {
+		if (file_exists("status/{$uuid}.downloading")) {
+			$return = "Downloading";
+		} else if (file_exists("status/{$uuid}.converting")) {
+			$return = "Converting";
+		} else if (file_exists("status/{$uuid}.done") && file_exists("output/{$uuid}.mp3")) {
+			$return = "Done";
+		} else {
+			$return = "Removed";
+		}
+	} else {
+		$return = "Removed";
+	}
+} else if ($data["action"] == "download") {
+	$uuid = escapeshellcmd($data["uuid"]);
+	if (file_exists("thumbnails/{$uuid}")) {
+		shell_exec("rm -f thumbnails/{$uuid}");
+	}
+	// Output file will be deleted by Cron Job, everything else is deleted on the stop
+	shell_exec("rm -f logs/{$uuid}.*");
+	shell_exec("rm -f temp/{$uuid}.*");
+	shell_exec("rm -f status/{$uuid}.*");
 }
 
 echo $return;
