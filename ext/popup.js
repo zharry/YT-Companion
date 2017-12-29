@@ -97,7 +97,7 @@ function updateStatus(response) {
 	if (response.split("-")[0] == "Done") {
 		var uuid = response.split("-")[1];
 		clearInterval(checkIntervalID);
-		container.innerHTML = "<center><h4><a href='http://youtubedl.ml/output/" + uuid + ".mp3' download='" + fileName + ".mp3'>Download</a></h4></center>";
+		container.innerHTML = "<center><h4><a href='http://youtubedl.ml/output/?action=download&uuid=" + uuid + "&name=" + fileName + "'>Download</a></h4></center>";
 	}
 }
 

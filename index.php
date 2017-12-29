@@ -113,6 +113,15 @@ if ($data["action"] == "createTask") {
 	}
 } else if ($data["action"] == "download") {
 	$uuid = escapeshellcmd($data["uuid"]);
+	
+	// Send user file to download
+	$file = file_get_contents("output/{$uuid}.mp3");
+	$fileName = $data["name"];
+	header('Content-disposition: filename="'.$fileName.'"');
+	header('Content-type: audio/mpeg');
+	echo $file;
+	
+	// Remove Temp files
 	if (file_exists("thumbnails/{$uuid}")) {
 		shell_exec("rm -f thumbnails/{$uuid}");
 	}
@@ -122,6 +131,8 @@ if ($data["action"] == "createTask") {
 	shell_exec("rm -f status/{$uuid}.*");
 }
 
-echo $return;
-
+// Dont echo return code if the user is downloading
+if ($data["action"] != "download") {
+	echo $return;
+}
 ?>
