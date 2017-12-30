@@ -3,3 +3,6 @@ output/*.*
 status/*.*
 temp/*.*
 thumbnails/*.*
+clear.bat
+clear.sh
+push.bat
