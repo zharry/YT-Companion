@@ -83,7 +83,7 @@ function checkStatus(response) {
 		checkIntervalID = setInterval(queryServerStatus, 100, response);
 	} else {
 		idDisplay.innerHTML = "Error!";
-		container.innerHTML = "Internal server error: " + response;
+		container.innerHTML = "<center>Internal server error: " + response + "</center>";
 	}
 }
 function queryServerStatus(uuid) {

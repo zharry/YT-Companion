@@ -39,9 +39,9 @@ if ($data["action"] == "createTask") {
 	$data["bitrate"] = escapeshellcmd($data["bitrate"]);
 	
 	// Check to see if URL is from Youtube
-	preg_match('@^(?:http://)?([^/]+)@i', $data["url"], $m);
+	preg_match('@^(?:https://)?([^/]+)@i', $data["url"], $m);
 	if ($m[1] != "youtube.com") {
-		die("Source is not from Youtube!");
+		die("Source is not from Youtube (HTTPS)!");
 	}
 	
 	$thumbnail = "default_thumbnail.png";
