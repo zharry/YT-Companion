@@ -107,6 +107,8 @@ function updateStatus(response) {
 				filename: fileName + ".mp3"
 			});
 		});
+	} else if (response == "Removed") {
+		clearInterval(checkIntervalID);
 	}
 }
 

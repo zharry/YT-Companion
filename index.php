@@ -86,7 +86,7 @@ if ($data["action"] == "createTask") {
 	$ydl_args .= "--no-continue "; 
 	$ydl_args .= "--no-part "; 
 	$ydl_args .= "--no-progress "; 
-	$ydl_args .= "-f [filesize<50M]+best "; 
+	$ydl_args .= "-f \"[filesize<50M]+best\" "; 
 	$ydl_args .= "-x --audio-format mp3 "; 
 	$ydl_args .= "--audio-quality {$data["bitrate"]}K "; 
 	$ydl_args .= "-o \"temp/{$uuid}.%(ext)s\" "; 
