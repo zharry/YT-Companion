@@ -40,8 +40,8 @@ if ($data["action"] == "createTask") {
 	
 	// Check to see if URL is from Youtube
 	preg_match('@^(?:https://)?([^/]+)@i', $data["url"], $m);
-	if ($m[1] != "youtube.com") {
-		die("Source is not from Youtube (HTTPS)!");
+	if ($m[1] != "www.youtube.com") {
+		die("Source [" . $m[1] . "] is not from Youtube (HTTPS)!");
 	}
 	
 	$thumbnail = "default_thumbnail.png";
