@@ -18,7 +18,7 @@ function bexec($name, $cmd) {
 }
  
 // Debug Vars
-$DEBUG = false;
+$DEBUG = true;
 
 /* Return Errors with ERR_{Code}
 */
@@ -59,7 +59,7 @@ if ($data["action"] == "createTask") {
 	$createStatus = "touch status/{$uuid}.downloading";
 	
 	// FFMPEG Command
-	$ffm_args = "ffmpeg";
+	$ffm_args = "ffmpeg ";
 	if (substr(php_uname(), 0, 7) == "Windows"){
 		$ffm_args = "\"bin/ffmpeg\" ";
 	}
@@ -86,7 +86,7 @@ if ($data["action"] == "createTask") {
 	$ydl_args .= "--no-continue "; 
 	$ydl_args .= "--no-part "; 
 	$ydl_args .= "--no-progress "; 
-	$ydl_args .= "--max-filesize 50m "; 
+	$ydl_args .= "-f [filesize<50M]+best "; 
 	$ydl_args .= "-x --audio-format mp3 "; 
 	$ydl_args .= "--audio-quality {$data["bitrate"]}K "; 
 	$ydl_args .= "-o \"temp/{$uuid}.%(ext)s\" "; 
