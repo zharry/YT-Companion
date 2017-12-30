@@ -39,7 +39,8 @@ if ($data["action"] == "createTask") {
 	$data["bitrate"] = escapeshellcmd($data["bitrate"]);
 	
 	// Check to see if URL is from Youtube
-	if (preg_match("^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$", $data["url"]) != 1) {
+	preg_match('@^(?:http://)?([^/]+)@i', $data["url"], $m);
+	if ($m[1] != "youtube.com") {
 		die();
 	}
 	
