@@ -38,6 +38,11 @@ if ($data["action"] == "createTask") {
 	$data["genre"] = escapeshellcmd($data["genre"]);
 	$data["bitrate"] = escapeshellcmd($data["bitrate"]);
 	
+	// Check to see if URL is from Youtube
+	if (preg_match("^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$", $data["url"]) != 1) {
+		die();
+	}
+	
 	$thumbnail = "default_thumbnail.png";
 	// Download Thumbnail
 	if ($data["thumbnail"] != "") {
@@ -53,7 +58,7 @@ if ($data["action"] == "createTask") {
 	$createStatus = "touch status/{$uuid}.downloading";
 	
 	// FFMPEG Command
-	$ffm_args = "\"ffmpeg\" ";
+	$ffm_args = "ffmpeg";
 	if (substr(php_uname(), 0, 7) == "Windows"){
 		$ffm_args = "\"bin/ffmpeg\" ";
 	}
@@ -80,10 +85,11 @@ if ($data["action"] == "createTask") {
 	$ydl_args .= "--no-continue "; 
 	$ydl_args .= "--no-part "; 
 	$ydl_args .= "--no-progress "; 
+	$ydl_args .= "--max-filesize 50m "; 
 	$ydl_args .= "-x --audio-format mp3 "; 
 	$ydl_args .= "--audio-quality {$data["bitrate"]}K "; 
-	$ydl_args .= "-o \"temp/" . $uuid . ".%(ext)s\" "; 
-	$ydl_args .= "--exec 'mv status/{$uuid}.downloading status/{$uuid}.converting && " . $ffm_args . " && mv status/{$uuid}.converting status/{$uuid}.done && echo {}' "; 
+	$ydl_args .= "-o \"temp/{$uuid}.%(ext)s\" "; 
+	$ydl_args .= "--exec 'mv status/{$uuid}.downloading status/{$uuid}.converting && {$ffm_args} && mv status/{$uuid}.converting status/{$uuid}.done && echo {}' "; 
 	$ydl_args .= "{$data["url"]}";
 	if ($DEBUG) {
 		$ydl_args = "-v " . $ydl_args;
@@ -114,10 +120,15 @@ if ($data["action"] == "createTask") {
 } else if ($data["action"] == "download") {
 	$uuid = escapeshellcmd($data["uuid"]);
 	
+	// To-Do Return an error message instead of dieing
+	if (strpos($uuid, '/') !== false || strpos($uuid, '\\') !== false) {
+		die();
+	}
+	
 	// Send user file to download
 	$file = file_get_contents("output/{$uuid}.mp3");
 	$fileName = $data["name"] . "test";
-	header('Content-disposition: attachment; filename="'.$fileName.'".mp3');
+	header('Content-disposition: attachment; filename="' . $fileName . '".mp3');
 	header('Content-type: audio/mpeg');
 	echo $file;
 	
