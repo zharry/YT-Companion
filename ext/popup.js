@@ -12,6 +12,8 @@ var idDisplay = document.getElementById("id");
 var container = document.getElementById("container");
 
 var fileName = "";
+//var DLurl = "http://localhost/Web-Projects/YT-Companion/";
+var DLurl = "http://youtubedl.ml/";
 
 document.addEventListener('DOMContentLoaded', function() {
 	var url = "";
@@ -53,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			// Download Button
 			submitButton.addEventListener('click', function() {		
 				// Submit form
-				ajax("http://youtubedl.ml/", checkStatus, {
+				ajax(DLurl, checkStatus, {
 					"action": "createTask",
 					"url": url,
 					"title": title.value,
@@ -87,7 +89,7 @@ function checkStatus(response) {
 	}
 }
 function queryServerStatus(uuid) {
-	ajax("http://youtubedl.ml/", updateStatus, {
+	ajax(DLurl, updateStatus, {
 		"action": "checkStatus",
 		"uuid": uuid
 	});
@@ -100,7 +102,7 @@ function updateStatus(response) {
 		
 		// Create Download Button
 		container.innerHTML = "<center><h4><button id='dlButton'>Download</button></h4></center>";
-		var dlLink = "http://youtubedl.ml/?action=download&uuid=" + uuid + "&name=" + fileName;
+		var dlLink = DLurl + "?action=download&uuid=" + uuid + "&name=" + fileName;
 		document.getElementById("dlButton").addEventListener("click", function(activeTab){
 			chrome.downloads.download({
 				url: dlLink,
